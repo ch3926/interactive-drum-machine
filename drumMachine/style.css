@@ -1,0 +1,100 @@
+/* These are CSS stylings for the html file */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1c1c1c;
+}
+
+/* for defining the canvas appearance and placement */
+canvas {
+  border-radius: 75px; /* so the corners of my game are rounded*/
+  padding-top: 25px;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 200px;
+
+}
+
+
+/* main div selector */
+div { 
+  padding: 10px;
+  margin: 10px;
+}
+
+/* class for distinguishing div selector containers */
+/* this one is for the instructions under "POND SCUM" */
+.instructions {
+  padding: 6px;
+}
+
+#canvasContainer {
+  display: block;
+}
+
+/* class defining text color */
+.textColor {
+  color: white;
+}
+
+/* determine's the appearance of my link before any actions have been done to it */
+a {
+  color: white;
+}
+
+/* when my link hasn't been visited yet */
+a:link {
+  color: white;
+}
+
+/* after it has been visited link */
+a:visited {
+  color: hotpink;
+  text-decoration: none;
+}
+
+/* when the user is hovering over the link*/
+a:hover {
+  color: hotpink;
+  font-size: 29px;
+}
+
+/* when the link is being clicked */
+a:active {
+  color: hotpink;
+}
+
+
+/* For my title text */
+h1 {
+  font-size: 60px;
+  padding: 3px;
+  font-family: "Fredoka One";
+  text-align: center;
+  letter-spacing: 2.5px;
+}
+
+
+/* For paragraphs */
+P {
+  font-size: 28px;
+  padding: 6px;
+  font-family: "Fredoka One"; /* From google fonts */
+  text-align: center;
+  letter-spacing: 2.5px;
+}
+
+/* for the instruction texts */
+h2 {
+  font-size: 20px;
+  font-family: "Fredoka One";
+  text-align: center;
+  letter-spacing: 2.5px;
+}
+
+
