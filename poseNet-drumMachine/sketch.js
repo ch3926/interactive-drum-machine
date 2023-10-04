@@ -121,12 +121,12 @@ function keyPressed() {
     bpm -= 10;
     slider.value(bpm);
   }
-  if(keyCode == 32){ // space bar
+  if (keyCode == 32) { // space bar
     togglePlay()
   }
 }
 
-function preload(){
+function preload() {
   //soundFormats('mp3', 'ogg');
   popSound = createAudio("toggle_sounds/pop.mp3");
   clickSound = createAudio("toggle_sounds/click.mp3");
@@ -149,8 +149,9 @@ function setup() {
   // slider for bpm
   slider = createSlider(minBpm, maxBpm, 100);
   slider.position(540, 445);
+  slider.addClass("bpmSlider");
   slider.input(speedVisualization);
-  slider.style("width", "200px");
+  //slider.style("width", "200px");
   // mapping slider to bpm ----
 
   // drop down menu to select kit ----
@@ -191,7 +192,7 @@ function setup() {
   // create play button ----
   playButton = createButton("▷");
   //playButton.position(310, 400);
-  playButton.position(canvasW/2-50,canvasH/2+40)
+  playButton.position(canvasW / 2 - 50, canvasH / 2 + 40)
   playButton.mouseClicked(togglePlay);
   playButton.style("background-color", buttonColor);
   // playButton.size(200, 100);
@@ -216,7 +217,7 @@ function gotResults(results) {
 }
 
 function toggleCell(noseX, noseY, leftX, leftY, realNoseX, realNoseY) { //, leftX, leftY
-  if (dist(realNoseX, realNoseY, leftX, leftY) < 50){
+  if (dist(realNoseX, realNoseY, leftX, leftY) < 50) {
     let x = noseX - b; // current x position of mouse
     let y = noseY - a; // current y position of mouse
 
@@ -257,6 +258,7 @@ function onTheBeat(time) {
 }
 
 function draw() {
+  noStroke()
   // initialize canvas + mascot each time
   background(canvasColor);
   slider.input(speedVisualization);
@@ -271,9 +273,9 @@ function draw() {
     //const nose = myResults[0].pose.leftWrist;
     // fill("red");
     // ellipse(nose.x, nose.y, 10, 10);
-    image(cursor, nose.x-30, nose.y-30, 40, 40)
+    image(cursor, nose.x - 30, nose.y - 30, 40, 40)
     //ellipse(left.x, left.y, 10, 10);
-    
+
     currPos[0] = nose.x;
     currPos[1] = nose.y;
 
@@ -285,8 +287,8 @@ function draw() {
       dist(currPos[0], currPos[1], lastPos[0], lastPos[1]) > 20
     ) {
 
-      
-      toggleCell(nose.x, nose.y, left.x, left.y, realNose.x, realNose.y); 
+
+      toggleCell(nose.x, nose.y, left.x, left.y, realNose.x, realNose.y);
     }
   }
 
@@ -301,7 +303,7 @@ function draw() {
   drawingContext.shadowBlur = 10;
   drawingContext.shadowColor = "black";
   fill("black");
-  ellipse(canvasW/2,canvasH/2+90, 100, 100);
+  ellipse(canvasW / 2, canvasH / 2 + 90, 100, 100);
   //rect(70, 395, 150, 70, 20);
   drawingContext.shadowOffsetX = 0;
   drawingContext.shadowOffsetY = 0;
@@ -310,14 +312,14 @@ function draw() {
   //---------
 
   // create bpm slider ---------
-  fill("#7c3f58");
-  noStroke();
-  rect(595, 390, 80, 45, 20);
-  textSize(24);
-  fill(bpmTextColor);
-  noStroke();
-  text("BPM", 610, 420);
-  textFont("Fredoka One");
+  // fill("#7c3f58");
+  // noStroke();
+  // rect(595, 390, 80, 45, 20);
+  // textSize(24);
+  // fill(bpmTextColor);
+  // noStroke();
+  // text("BPM", 610, 420);
+  // textFont("Fredoka One");
 
   // make BPM slider control speed of playback
   let currBpm = slider.value();
