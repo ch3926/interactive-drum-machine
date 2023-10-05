@@ -34,6 +34,8 @@ currPos = [];
 let cursor
 let popSound
 let clickSound
+// play symbol "▷"
+// pause symbol "||"
 
 // -----------
 
@@ -156,19 +158,21 @@ function setup() {
 
   // drop down menu to select kit ----
   menu = createSelect();
-  menu.position(70, 395);
-  menu.size(150, 70);
+  menu.position(canvasW / 2 - 270, canvasH / 2 + 50);
+  //menu.size(150, 70);
+  menu.size(70, 70);
   menu.style("background-color", buttonColor);
-  menu.style("font-family", "Fredoka One");
+  menu.style("font-family", "DM Mono");
+  menu.style("-webkit-appearance", "none")
   menu.style("font-size", "30px");
   menu.style("text-align", "center");
   menu.style("border-width", "0px"); // get rid of border width
   menu.style("color", textColor);
-  menu.style("border-radius", "20px");
+  menu.style("border-radius", "50%");
   menu.selected("beats");
-  menu.option("beats");
-  menu.option("trap");
-  menu.option("mix");
+  menu.option("B");
+  menu.option("T");
+  menu.option("M");
   menu.changed(mySelectEvent);
   kitChosen = menu.value(); // set kit chosen to be menu item selected
 
@@ -199,8 +203,9 @@ function setup() {
   playButton.size(100, 100);
   playButton.style("font-family", "Fredoka One");
   playButton.style("color", textColor);
-  playButton.style("font-size", "48px");
-  playButton.style("border-width", "0px"); // get rid of border/stroke
+  playButton.style("font-size", "38px");
+  playButton.style("border-color", "grey");
+  playButton.style("border-width", "2px"); // get rid of border/stroke
   playButton.style("border-radius", "50px");
 }
 function gotModel() {
@@ -298,17 +303,17 @@ function draw() {
   // ellipse(71.875, 80, 10, 10);
 
   // draw play button shadow ---------
-  drawingContext.shadowOffsetX = 5;
-  drawingContext.shadowOffsetY = 5;
+  drawingContext.shadowOffsetX = 4;
+  drawingContext.shadowOffsetY = 4;
   drawingContext.shadowBlur = 10;
-  drawingContext.shadowColor = "black";
-  fill("black");
+  drawingContext.shadowColor = "grey";
+  fill("grey");
   ellipse(canvasW / 2, canvasH / 2 + 90, 100, 100);
   //rect(70, 395, 150, 70, 20);
   drawingContext.shadowOffsetX = 0;
   drawingContext.shadowOffsetY = 0;
   drawingContext.shadowBlur = 0;
-  drawingContext.shadowColor = "black";
+  drawingContext.shadowColor = "grey";
   //---------
 
   // create bpm slider ---------
@@ -422,11 +427,13 @@ function mousePressed() {
 function togglePlay() {
   if (Tone.Transport.state == "started") {
     Tone.Transport.stop();
-    playButton.html("PLAY");
+    playButton.style("font-size", "38px");
+    playButton.html("▷");
   } else {
     if (beats.loaded && trap.loaded) {
       Tone.Transport.start();
-      playButton.html("STOP");
+      playButton.style("font-size", "68px")
+      playButton.html("⏸");
     }
   }
 }
