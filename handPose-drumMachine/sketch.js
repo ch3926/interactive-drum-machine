@@ -45,6 +45,7 @@ let predictions = []
 const options = {
   flipHorizontal: false,
 };
+fillCells = false
 
 // -----------
 
@@ -134,6 +135,12 @@ function keyPressed() {
   }
   if (keyCode == 32) { // space bar
     togglePlay()
+  }
+  if (keyCode == 81) {
+    fillCells = "true";
+  }
+  if (keyCode == 87) {
+    fillCells = "false";
   }
 }
 
@@ -242,22 +249,28 @@ function gotResults(results) {
   //console.log('myResults', myResults)
 }
 
-function toggleCell(noseX, noseY, leftX, leftY, realNoseX, realNoseY) { //, leftX, leftY
-  if (dist(realNoseX, realNoseY, leftX, leftY) < 50) {
-    let x = noseX - b; // current x position of mouse
-    let y = noseY - a; // current y position of mouse
+function toggleCell(pointx, pointy) { //, leftX, leftY
+  let x = pointx - b; // current x position of mouse
+  let y = pointy - a; // current y position of mouse
 
-    // which cell is clicked
-    let i = floor(x / cellW);
-    let j = floor(y / cellH);
+  // which cell is clicked
+  let i = floor(x / cellW);
+  let j = floor(y / cellH);
 
-    // cell on/off switch
-    cells[j][i] = !cells[j][i];
+
+  if (fillCells == 'true') {
+    cells[j][i] = 1
     popSound.volume(0.4);
     popSound.play()
-    lastPos[0] = noseX;
-    lastPos[1] = noseY;
   }
+  if (fillCells == 'false') {
+    cells[j][i] = 0
+    popSound.volume(0.4);
+    popSound.play()
+  }
+  // cells[j][i] = !cells[j][i];
+  lastPos[0] = pointx
+  lastPos[1] = pointy
 }
 
 function onTheBeat(time) {
@@ -297,38 +310,32 @@ function draw() {
   mascot.update();
   drawKeypoints();
 
-  let pointer = predictions[0]
-  //console.log(hand)
-  if (pointer) {
+  if (predictions && predictions[0]) {
+    let pointer = predictions[0]
+    //console.log(hand)
     let point = pointer.landmarks
-    point = point[8][0] // point of pointer finger
-    console.log(point[8][0])
-  }
+    pointx = point[8][0] // point of pointer finger
+    //console.log(point[8][0])
+    pointy = point[8][1]
 
-  if (myResults && myResults[0]) {
-    const nose = myResults[0].pose.rightWrist;
-    const realNose = myResults[0].pose.leftShoulder;
-    const left = myResults[0].pose.leftWrist;
-    //const nose = myResults[0].pose.leftWrist;
-    // fill("red");
-    // ellipse(nose.x, nose.y, 10, 10);
-    image(cursor, nose.x - 30, nose.y - 30, 40, 40)
+    image(cursor, pointx - 30, point.y - 30, 40, 40)
     //ellipse(left.x, left.y, 10, 10);
 
-    currPos[0] = nose.x;
-    currPos[1] = nose.y;
+    currPos[0] = pointx;
+    currPos[1] = pointy;
 
     if (
-      b < nose.x &&
-      nose.x < b + gridW &&
-      a < nose.y &&
-      nose.y < a + gridH &&
+      b < pointx &&
+      pointx < b + gridW &&
+      a < pointy &&
+      pointy < a + gridH &&
       dist(currPos[0], currPos[1], lastPos[0], lastPos[1]) > 20
     ) {
 
 
-      toggleCell(nose.x, nose.y, left.x, left.y, realNose.x, realNose.y);
+      toggleCell(pointx, pointy);
     }
+
   }
 
   // }
