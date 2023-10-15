@@ -33,7 +33,7 @@ let predictions = []
 const options = {
   flipHorizontal: false,
 };
-fillCells = false
+fillCells = true
 // -----------
 
 // vars to control playback ----
@@ -225,8 +225,8 @@ function toggleCell(pointx, pointy) { //, leftX, leftY
     popSound.play()
   }
   // cells[j][i] = !cells[j][i];
-  lastPos[0] = pointx
-  lastPos[1] = pointy
+  // lastPos[0] = pointx
+  // lastPos[1] = pointy
 }
 
 function onTheBeat(time) {
@@ -508,41 +508,10 @@ function drawKeypoints() {
       ellipse(point.x, point.y, 10);
       if (j == 8) {
         image(cursor, point.x - 30, point.y - 30, 40, 40)
+        toggleCell(point.x, point.y)
       }
 
 
     }
   }
-}
-
-function fingerToggle() {
-  // drawKeypoints();
-  const leftHand = myResults[0];
-
-  const rightHand = myResults[1];
-  //const pointx = rightHand.index_finger_tip;
-  const rightIndexTip = rightHand.index_finger_tip;
-  const rightThumbTip = rightHand.thumb_tip;
-  pointx = rightIndexTip[0]
-  pointy = rightIndexTip[1]
-  console.log(pointx)
-
-  image(cursor, pointx - 30, point.y - 30, 40, 40)
-  //ellipse(left.x, left.y, 10, 10);
-
-  // currPos[0] = pointx;
-  // currPos[1] = pointy;
-
-  // if (
-  //   b < pointx &&
-  //   pointx < b + gridW &&
-  //   a < pointy &&
-  //   pointy < a + gridH &&
-  //   dist(currPos[0], currPos[1], lastPos[0], lastPos[1]) > 20
-  // ) {
-
-
-  //   toggleCell(pointx, pointy);
-  // }
-
 }
