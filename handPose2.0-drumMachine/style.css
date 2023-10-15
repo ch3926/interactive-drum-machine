@@ -1,0 +1,41 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.bpmSlider{
+  width: 200px;
+  background-color: transparent;
+  /* Removes some defaults */
+  -webkit-appearance: none;
+}
+
+
+/* Behavior when mouse on slider */
+.bpmSlider:focus {
+  outline: none;
+}
+
+/* track settings  */
+.bpmSlider::-webkit-slider-runnable-track {
+  /* background: #000000; */
+  height: 2px;
+  -webkit-appearance: none;
+  border-bottom: 2px solid grey;
+  background-color: transparent;
+  /* Turns the cursor into the hand pointer icon when hovering over the slider  */
+  cursor: pointer;
+}
+
+/* Thumb settings */
+.bpmSlider::-webkit-slider-thumb {
+  width: 25px;
+  height: 25px;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  border: 2px solid grey;
+  /* position thumb on center of track */
+  margin-top: -13px;
+  border-radius: 50px;
+}
