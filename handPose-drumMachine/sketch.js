@@ -7,20 +7,15 @@
 
 let canvasW = 800;
 let canvasH = 700;
-
 let buttonColor = "white";
 let textColor = "grey";
 let bpmTextColor = "#e2f3e4";
 let canvasColor = "white";
 let gridColor = "##e2f3e4";
 
-// vars for adding poseNet functionality ----
+// vars for handpose ----
 let myVideo;
 let myResults;
-const minDistHands = 0;
-const minDistHandsButton = 0;
-let leftW;
-let rightW;
 lastPos = [0, 0];
 currPos = [];
 
@@ -30,7 +25,6 @@ let popSound
 let clickSound
 // play symbol "▷"
 // pause symbol "||"
-
 // -----------
 
 // vars for adding handPose functionality ----
@@ -40,7 +34,6 @@ const options = {
   flipHorizontal: false,
 };
 fillCells = false
-
 // -----------
 
 // vars to control playback ----
@@ -57,9 +50,7 @@ let cellCenterPositions = []; // creates a 4*8 empty array
 let a = 40; // cell height variable
 let b = 25; // cell width variable
 let gridW, gridH, cellW, cellH; // initializing values for grid
-//let colors = ["#292831", "#333f58", "#4a7a96", "#96b0b3"]; // array of colors
 let colors;
-
 // -----------
 
 // button for play/pause, slider for controlling BPM / speed
@@ -119,24 +110,6 @@ Tone.Transport.scheduleRepeat(onTheBeat, "8n");
 
 // ------------- end of setting global variables ---------------
 
-function keyPressed() {
-  if (keyCode == RIGHT_ARROW && slider.value() < maxBpm) {
-    bpm += 10;
-    slider.value(bpm);
-  } else if (keyCode == LEFT_ARROW && slider.value() > minBpm) {
-    bpm -= 10;
-    slider.value(bpm);
-  }
-  if (keyCode == 32) { // space bar
-    togglePlay()
-  }
-  if (keyCode == 81) {
-    fillCells = "true";
-  }
-  if (keyCode == 87) {
-    fillCells = "false";
-  }
-}
 
 function preload() {
   //soundFormats('mp3', 'ogg');
@@ -146,7 +119,7 @@ function preload() {
 }
 
 function setup() {
-  // for poseNet ----
+  // for handpose ----
   myVideo = createCapture(VIDEO);
   myVideo.hide();
   createCanvas(640, 480);
@@ -156,12 +129,6 @@ function setup() {
     predictions = results;
   });
 
-  // Hide the video element, and just show the canvas
-  poseNet = ml5.poseNet(myVideo, gotModel);
-  // noStroke();
-  // fill(155, 20, 200);
-  // rectMode(CENTER);
-  // -----------
   colors = ["#11826e", "#edd92a", "#e957b2", "#f7583a"]; // array of colors
 
   mascot = new mascot(350, 600);
@@ -433,6 +400,25 @@ function mousePressed() {
     popSound.play()
     //clickSound.play()
     cells[j][i] = !cells[j][i];
+  }
+}
+
+function keyPressed() {
+  if (keyCode == RIGHT_ARROW && slider.value() < maxBpm) {
+    bpm += 10;
+    slider.value(bpm);
+  } else if (keyCode == LEFT_ARROW && slider.value() > minBpm) {
+    bpm -= 10;
+    slider.value(bpm);
+  }
+  if (keyCode == 32) { // space bar
+    togglePlay()
+  }
+  if (keyCode == 81) {
+    fillCells = "true";
+  }
+  if (keyCode == 87) {
+    fillCells = "false";
   }
 }
 
