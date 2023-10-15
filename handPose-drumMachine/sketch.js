@@ -7,13 +7,6 @@
 
 let canvasW = 800;
 let canvasH = 700;
-// set some colors ----
-// let buttonColor = "#7c3f58";
-// let textColor = "#e2f3e4";
-// let bpmTextColor = "#e2f3e4";
-// let canvasColor = "#ee8695";
-// let gridColor = "##e2f3e4";
-// -----------
 
 let buttonColor = "white";
 let textColor = "grey";
@@ -22,7 +15,6 @@ let canvasColor = "white";
 let gridColor = "##e2f3e4";
 
 // vars for adding poseNet functionality ----
-let poseNet;
 let myVideo;
 let myResults;
 const minDistHands = 0;
@@ -31,6 +23,8 @@ let leftW;
 let rightW;
 lastPos = [0, 0];
 currPos = [];
+
+// vars for cursor
 let cursor
 let popSound
 let clickSound
@@ -236,18 +230,6 @@ function setup() {
 function modelReady() {
   console.log("Model ready!");
 }
-function gotModel() {
-  poseNet.on("pose", gotResults);
-  poseNet.flipHorizontal = true;
-}
-
-function gotResults(results) {
-  myResults = results;
-  // if (myResults[0]){
-  //   const newNose = results[0].pose.nose;
-  // }
-  //console.log('myResults', myResults)
-}
 
 function toggleCell(pointx, pointy) { //, leftX, leftY
   let x = pointx - b; // current x position of mouse
@@ -356,16 +338,6 @@ function draw() {
   drawingContext.shadowBlur = 0;
   drawingContext.shadowColor = "grey";
   //---------
-
-  // create bpm slider ---------
-  // fill("#7c3f58");
-  // noStroke();
-  // rect(595, 390, 80, 45, 20);
-  // textSize(24);
-  // fill(bpmTextColor);
-  // noStroke();
-  // text("BPM", 610, 420);
-  // textFont("Fredoka One");
 
   // make BPM slider control speed of playback
   let currBpm = slider.value();
