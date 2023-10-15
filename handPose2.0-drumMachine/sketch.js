@@ -265,8 +265,15 @@ function draw() {
   // mascot.display();
   // mascot.update();
 
+  // const rightIndexTip = rightHand.index_finger_tip;
+  // const rightThumbTip = rightHand.thumb_tip;
+  // fill('black')
+  // ellipse(rightIndexTip.x, rightIndexTip.y, 50, 50);
+
+
   if (myResults) {
     drawKeypoints()
+    //fingerToggle()
   }
   // drawKeypoints();
 
@@ -486,16 +493,56 @@ function old_drawKeypoints() {
 }
 
 function drawKeypoints() {
+  const leftHand = myResults[0];
+  const rightHand = myResults[1];
+
   for (let i = 0; i < myResults.length; i++) {
     const oneHand = myResults[i];
     for (let j = 0; j < oneHand.keypoints.length; j++) {
       const point = oneHand.keypoints[j];
       fill(0, 255, 0);
       noStroke();
-      if (j == 4 || j == 8) {
+      if (j == 4) {
         fill(255, 0, 0);
       }
       ellipse(point.x, point.y, 10);
+      if (j == 8) {
+        image(cursor, point.x - 30, point.y - 30, 40, 40)
+      }
+
+
     }
   }
+}
+
+function fingerToggle() {
+  // drawKeypoints();
+  const leftHand = myResults[0];
+
+  const rightHand = myResults[1];
+  //const pointx = rightHand.index_finger_tip;
+  const rightIndexTip = rightHand.index_finger_tip;
+  const rightThumbTip = rightHand.thumb_tip;
+  pointx = rightIndexTip[0]
+  pointy = rightIndexTip[1]
+  console.log(pointx)
+
+  image(cursor, pointx - 30, point.y - 30, 40, 40)
+  //ellipse(left.x, left.y, 10, 10);
+
+  // currPos[0] = pointx;
+  // currPos[1] = pointy;
+
+  // if (
+  //   b < pointx &&
+  //   pointx < b + gridW &&
+  //   a < pointy &&
+  //   pointy < a + gridH &&
+  //   dist(currPos[0], currPos[1], lastPos[0], lastPos[1]) > 20
+  // ) {
+
+
+  //   toggleCell(pointx, pointy);
+  // }
+
 }
