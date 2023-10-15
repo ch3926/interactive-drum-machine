@@ -123,20 +123,23 @@ function setup() {
   myVideo = createCapture(VIDEO);
   myVideo.hide();
   createCanvas(640, 480);
-  handpose = ml5.handpose(myVideo, options, modelReady);
-  handpose.on("predict", results => {
-    ;
-    predictions = results;
-  });
+  // handpose = ml5.handpose(myVideo, options, modelReady);
+  // handpose.on("predict", results => {
+  //   ;
+  //   predictions = results;
+  // });
+  handPose = ml5.handpose();
+  handPose.detectStart(myVideo, gotResults);
+
 
   colors = ["#11826e", "#edd92a", "#e957b2", "#f7583a"]; // array of colors
 
-  mascot = new mascot(350, 600);
+  //mascot = new mascot(350, 600);
   // slider for bpm
   slider = createSlider(minBpm, maxBpm, 100);
   slider.position(540, 445);
   slider.addClass("bpmSlider");
-  slider.input(speedVisualization);
+  //slider.input(speedVisualization);
   //slider.style("width", "200px");
   // mapping slider to bpm ----
 
@@ -193,10 +196,14 @@ function setup() {
   playButton.style("border-radius", "50px");
 }
 
-//for handPose
-function modelReady() {
-  console.log("Model ready!");
+function gotResults(results) {
+  console.log(results);
+  myResults = results;
 }
+// //for handPose
+// function modelReady() {
+//   console.log("Model ready!");
+// }
 
 function toggleCell(pointx, pointy) { //, leftX, leftY
   let x = pointx - b; // current x position of mouse
@@ -253,39 +260,43 @@ function draw() {
   translate(width, 0);
   scale(-1, 1);
 
-  slider.input(speedVisualization);
-  mascot.updateSpeedSway(drummingSpeed, swayingSpeed);
-  mascot.display();
-  mascot.update();
-  drawKeypoints();
+  // slider.input(speedVisualization);
+  // mascot.updateSpeedSway(drummingSpeed, swayingSpeed);
+  // mascot.display();
+  // mascot.update();
 
-  if (predictions && predictions[0]) {
-    let pointer = predictions[0]
-    //console.log(hand)
-    let point = pointer.landmarks
-    pointx = point[8][0] // point of pointer finger
-    //console.log(point[8][0])
-    pointy = point[8][1]
-
-    image(cursor, pointx - 30, point.y - 30, 40, 40)
-    //ellipse(left.x, left.y, 10, 10);
-
-    currPos[0] = pointx;
-    currPos[1] = pointy;
-
-    if (
-      b < pointx &&
-      pointx < b + gridW &&
-      a < pointy &&
-      pointy < a + gridH &&
-      dist(currPos[0], currPos[1], lastPos[0], lastPos[1]) > 20
-    ) {
-
-
-      toggleCell(pointx, pointy);
-    }
-
+  if (myResults) {
+    drawKeypoints()
   }
+  // drawKeypoints();
+
+  // if (predictions && predictions[0]) {
+  //   let pointer = predictions[0]
+  //   //console.log(hand)
+  //   let point = pointer.landmarks
+  //   pointx = point[8][0] // point of pointer finger
+  //   //console.log(point[8][0])
+  //   pointy = point[8][1]
+
+  //   image(cursor, pointx - 30, point.y - 30, 40, 40)
+  //   //ellipse(left.x, left.y, 10, 10);
+
+  //   currPos[0] = pointx;
+  //   currPos[1] = pointy;
+
+  //   if (
+  //     b < pointx &&
+  //     pointx < b + gridW &&
+  //     a < pointy &&
+  //     pointy < a + gridH &&
+  //     dist(currPos[0], currPos[1], lastPos[0], lastPos[1]) > 20
+  //   ) {
+
+
+  //     toggleCell(pointx, pointy);
+  //   }
+
+  // }
 
   // }
   //making sure the centers are stored properly
@@ -459,7 +470,7 @@ function speedVisualization() {
 }
 
 // A function to draw ellipses over the detected keypoints
-function drawKeypoints() {
+function old_drawKeypoints() {
   for (let i = 0; i < predictions.length; i += 1) {
     const prediction = predictions[i];
     for (let j = 0; j < prediction.landmarks.length; j += 1) {
@@ -470,6 +481,21 @@ function drawKeypoints() {
         fill(255, 0, 0);
       }
       ellipse(keypoint[0], keypoint[1], 10, 10);
+    }
+  }
+}
+
+function drawKeypoints() {
+  for (let i = 0; i < myResults.length; i++) {
+    const oneHand = myResults[i];
+    for (let j = 0; j < oneHand.keypoints.length; j++) {
+      const point = oneHand.keypoints[j];
+      fill(0, 255, 0);
+      noStroke();
+      if (j == 4 || j == 8) {
+        fill(255, 0, 0);
+      }
+      ellipse(point.x, point.y, 10);
     }
   }
 }
